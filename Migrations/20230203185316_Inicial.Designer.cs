@@ -11,7 +11,7 @@ using Strore_APP_ASP_API_MySQL.DB_Context;
 namespace StroreAPPASPAPIMySQL.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20230201162650_Inicial")]
+    [Migration("20230203185316_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -65,7 +65,11 @@ namespace StroreAPPASPAPIMySQL.Migrations
 
                     b.HasKey("IdCart");
 
-                    b.ToTable("Cart");
+                    b.HasIndex("IdClient");
+
+                    b.HasIndex("IdProduct");
+
+                    b.ToTable("MCart", (string)null);
                 });
 
             modelBuilder.Entity("Strore_APP_ASP_API_MySQL.Models.MClient", b =>
@@ -110,16 +114,14 @@ namespace StroreAPPASPAPIMySQL.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<DateTime>("created_at")
-                        .HasMaxLength(100)
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("updated_at")
-                        .HasMaxLength(100)
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("IdClient");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("Strore_APP_ASP_API_MySQL.Models.MCodeApp", b =>
@@ -129,7 +131,6 @@ namespace StroreAPPASPAPIMySQL.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("CodeAdmin")
-                        .HasMaxLength(50)
                         .HasColumnType("int");
 
                     b.HasKey("IdCode");
@@ -169,7 +170,6 @@ namespace StroreAPPASPAPIMySQL.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<float>("Iva")
-                        .HasMaxLength(50)
                         .HasColumnType("float");
 
                     b.Property<string>("NameCompany")
@@ -183,7 +183,6 @@ namespace StroreAPPASPAPIMySQL.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<int>("NumDocument")
-                        .HasMaxLength(50)
                         .HasColumnType("int");
 
                     b.Property<string>("Phone")
@@ -227,49 +226,41 @@ namespace StroreAPPASPAPIMySQL.Migrations
 
                     b.Property<string>("Date_Now")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Hour_Now")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("IdCart")
-                        .HasMaxLength(50)
                         .HasColumnType("int");
 
                     b.Property<float>("IvaTotal")
-                        .HasMaxLength(50)
                         .HasColumnType("float");
 
                     b.Property<float>("SubTotal0")
-                        .HasMaxLength(50)
                         .HasColumnType("float");
 
                     b.Property<float>("Subtotal")
-                        .HasMaxLength(50)
                         .HasColumnType("float");
 
                     b.Property<float>("Subtotal12")
-                        .HasMaxLength(50)
                         .HasColumnType("float");
 
                     b.Property<float>("Total")
-                        .HasMaxLength(50)
                         .HasColumnType("float");
 
                     b.Property<DateTime>("created_at")
-                        .HasMaxLength(100)
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("updated_at")
-                        .HasMaxLength(100)
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("IdDetailCart");
 
-                    b.ToTable("DetailCart");
+                    b.HasIndex("IdCart");
+
+                    b.ToTable("DetailCart", (string)null);
                 });
 
             modelBuilder.Entity("Strore_APP_ASP_API_MySQL.Models.MProduct", b =>
@@ -290,42 +281,37 @@ namespace StroreAPPASPAPIMySQL.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Image_Product")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
 
                     b.Property<string>("NameProduct")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<float>("P_Total")
-                        .HasMaxLength(50)
                         .HasColumnType("float");
 
                     b.Property<float>("P_Unitary")
-                        .HasMaxLength(50)
                         .HasColumnType("float");
 
                     b.Property<int>("Quantity")
-                        .HasMaxLength(50)
                         .HasColumnType("int");
 
                     b.Property<DateTime>("created_at")
-                        .HasMaxLength(100)
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("updated_at")
-                        .HasMaxLength(100)
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("IdProduct");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Strore_APP_ASP_API_MySQL.Models.MReport", b =>
@@ -340,6 +326,51 @@ namespace StroreAPPASPAPIMySQL.Migrations
                     b.HasKey("IdReport");
 
                     b.ToTable("Reports");
+                });
+
+            modelBuilder.Entity("Strore_APP_ASP_API_MySQL.Models.MCart", b =>
+                {
+                    b.HasOne("Strore_APP_ASP_API_MySQL.Models.MClient", "Client")
+                        .WithMany("Cart")
+                        .HasForeignKey("IdClient")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Strore_APP_ASP_API_MySQL.Models.MProduct", "Product")
+                        .WithMany("Cart")
+                        .HasForeignKey("IdProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Strore_APP_ASP_API_MySQL.Models.MDetailsCart", b =>
+                {
+                    b.HasOne("Strore_APP_ASP_API_MySQL.Models.MCart", "Cart")
+                        .WithMany("DetailsCart")
+                        .HasForeignKey("IdCart")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("Strore_APP_ASP_API_MySQL.Models.MCart", b =>
+                {
+                    b.Navigation("DetailsCart");
+                });
+
+            modelBuilder.Entity("Strore_APP_ASP_API_MySQL.Models.MClient", b =>
+                {
+                    b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("Strore_APP_ASP_API_MySQL.Models.MProduct", b =>
+                {
+                    b.Navigation("Cart");
                 });
 #pragma warning restore 612, 618
         }
