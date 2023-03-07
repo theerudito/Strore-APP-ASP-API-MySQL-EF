@@ -33,7 +33,7 @@ namespace Strore_APP_ASP_API_MySQL.Controllers
       return Ok(clients);
     }
     [HttpPost]
-    public async Task<ActionResult> PostClient(MClientDTO clientDTO)
+    public async Task<ActionResult> PostClient([FromBody] MClientDTO clientDTO)
     {
       var clientExist = await _repositoryClients.AddClient(clientDTO);
       if (clientExist == null)
@@ -44,17 +44,25 @@ namespace Strore_APP_ASP_API_MySQL.Controllers
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> PutClient(MClientDTO clientDTO, int id)
+    public async Task<ActionResult> PutClient([FromBody] MClientDTO clientDTO, int id)
     {
-      await _repositoryClients.UpdateClient(clientDTO, id);
+      var clientExist = await _repositoryClients.UpdateClient(clientDTO, id);
+      if (clientExist == null)
+      {
+        return Ok(new { message = "Client not exist" });
+      }
       return Ok(new { message = "Client updated" });
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> RemoveClient(int id)
     {
-      await _repositoryClients.DeleteClient(id);
-      return Ok(new { message = "Client deleted" });
+      var clientExist = await _repositoryClients.GetClient(id);
+      if (clientExist == null)
+      {
+        return Ok(new { message = "Client not exist" });
+      }
+      return Ok(new { message = "Client removed" });
     }
   }
 }

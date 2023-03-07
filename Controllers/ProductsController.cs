@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Strore_APP_ASP_API_MySQL.DB_Context;
 using Strore_APP_ASP_API_MySQL.DTO;
 using Strore_APP_ASP_API_MySQL.Models;
+using Strore_APP_ASP_API_MySQL.Services;
 
 namespace Strore_APP_ASP_API_MySQL.Controllers
 {
@@ -11,65 +10,61 @@ namespace Strore_APP_ASP_API_MySQL.Controllers
   [Route("[controller]")]
   public class ProductsController : Controller
   {
-    private readonly ApplicationDBContext context;
-    private readonly IMapper mapper;
 
-    public ProductsController(ApplicationDBContext context, IMapper mapper)
+    private readonly IProducts __repositoryProducts;
+
+    public ProductsController(IProducts products)
     {
-      this.context = context;
-      this.mapper = mapper;
+      __repositoryProducts = products;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<MProduct>>> GetAllProducts()
     {
-      return await context.Products.ToListAsync();
+      return await __repositoryProducts.Get_Products();
     }
     [HttpGet("{id}")]
     public async Task<ActionResult<MProduct>> GetProduct(int id)
     {
-      return await context.Products.FirstOrDefaultAsync(x => x.IdProduct == id);
+      var product = await __repositoryProducts.Get_Product(id);
+      if (product == null)
+      {
+        return BadRequest(new { message = "Product does not exist" });
+      }
+      return Ok(product);
     }
 
     [HttpPost]
-    public async Task<ActionResult> addProduct([FromBody] MProductDTO productDTO)
+    public async Task<ActionResult> AddProduct([FromBody] MProductDTO productDTO)
     {
-      var newProduct = mapper.Map<MProduct>(productDTO);
-
-      context.Add(newProduct);
-
-      await context.SaveChangesAsync();
-
-      return Ok();
+      var newProduct = await __repositoryProducts.Add_Product(productDTO);
+      if (newProduct == null)
+      {
+        return BadRequest(new { message = "Product already exists" });
+      }
+      return Ok(new { message = "Product added" });
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> updateProduct([FromBody] MProductDTO productDTO)
+    public async Task<ActionResult> UpdateProduct([FromBody] MProductDTO productDTO, int id)
     {
-      var product = mapper.Map<MProduct>(productDTO);
-
-      context.Entry(product).State = EntityState.Modified;
-
-      await context.SaveChangesAsync();
-
-      return Ok();
+      var updatedProduct = await __repositoryProducts.Update_Product(productDTO, id);
+      if (updatedProduct == null)
+      {
+        return BadRequest(new { message = "Product does not exist" });
+      }
+      return Ok(new { message = "Product updated" });
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> deleteProduct(int id)
+    public async Task<ActionResult> DeleteProduct(int id)
     {
-      var product = await context.Products.FirstOrDefaultAsync(x => x.IdProduct == id);
-
-      if (product == null)
+      var deletedProduct = await __repositoryProducts.Delete_Product(id);
+      if (deletedProduct == null)
       {
-        return NotFound();
+        return BadRequest(new { message = "Product does not exist" });
       }
-
-      context.Remove(product);
-
-      await context.SaveChangesAsync();
-
-      return Ok();
+      return Ok(new { message = "Product deleted" });
     }
 
   }

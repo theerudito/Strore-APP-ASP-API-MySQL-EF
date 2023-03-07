@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 });
 
 builder.Services.AddScoped<IClients, MClientsRepositories>();
+builder.Services.AddScoped<IProducts, MProductsRepositories>();
 
 
 
