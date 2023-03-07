@@ -4,7 +4,7 @@ using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace StroreAPPASPAPIMySQL.Migrations
+namespace Strore_APP_ASP_API_MySQL.Migrations
 {
     /// <inheritdoc />
     public partial class Inicial : Migration
@@ -23,7 +23,7 @@ namespace StroreAPPASPAPIMySQL.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     User = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    Password = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                    Password = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,8 +44,8 @@ namespace StroreAPPASPAPIMySQL.Migrations
                     Phone = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     City = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    createdat = table.Column<DateTime>(name: "created_at", type: "datetime(6)", nullable: false),
-                    updatedat = table.Column<DateTime>(name: "updated_at", type: "datetime(6)", nullable: false)
+                    created_at = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,8 +86,8 @@ namespace StroreAPPASPAPIMySQL.Migrations
                     DB = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     Iva = table.Column<float>(type: "float", nullable: false),
                     Coin = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    createdat = table.Column<DateTime>(name: "created_at", type: "datetime(6)", maxLength: 100, nullable: false),
-                    updatedat = table.Column<DateTime>(name: "updated_at", type: "datetime(6)", maxLength: 100, nullable: false)
+                    created_at = table.Column<DateTime>(type: "datetime(6)", maxLength: 100, nullable: false),
+                    updated_at = table.Column<DateTime>(type: "datetime(6)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -106,11 +106,11 @@ namespace StroreAPPASPAPIMySQL.Migrations
                     Brand = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    PUnitary = table.Column<float>(name: "P_Unitary", type: "float", nullable: false),
-                    PTotal = table.Column<float>(name: "P_Total", type: "float", nullable: false),
-                    ImageProduct = table.Column<string>(name: "Image_Product", type: "varchar(300)", maxLength: 300, nullable: false),
-                    createdat = table.Column<DateTime>(name: "created_at", type: "datetime(6)", nullable: false),
-                    updatedat = table.Column<DateTime>(name: "updated_at", type: "datetime(6)", nullable: false)
+                    P_Unitary = table.Column<float>(type: "float", nullable: false),
+                    P_Total = table.Column<float>(type: "float", nullable: false),
+                    Image_Product = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false),
+                    created_at = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -138,7 +138,7 @@ namespace StroreAPPASPAPIMySQL.Migrations
                 {
                     IdCart = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    PTotal = table.Column<float>(name: "P_Total", type: "float", nullable: false),
+                    P_Total = table.Column<float>(type: "float", nullable: false),
                     IdClient = table.Column<int>(type: "int", nullable: false),
                     IdProduct = table.Column<int>(type: "int", nullable: false)
                 },
@@ -167,15 +167,15 @@ namespace StroreAPPASPAPIMySQL.Migrations
                     IdDetailCart = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     IdCart = table.Column<int>(type: "int", nullable: false),
-                    DateNow = table.Column<string>(name: "Date_Now", type: "longtext", nullable: false),
-                    HourNow = table.Column<string>(name: "Hour_Now", type: "longtext", nullable: false),
+                    Date_Now = table.Column<string>(type: "longtext", nullable: false),
+                    Hour_Now = table.Column<string>(type: "longtext", nullable: false),
                     Subtotal = table.Column<float>(type: "float", nullable: false),
                     Subtotal12 = table.Column<float>(type: "float", nullable: false),
                     SubTotal0 = table.Column<float>(type: "float", nullable: false),
                     IvaTotal = table.Column<float>(type: "float", nullable: false),
                     Total = table.Column<float>(type: "float", nullable: false),
-                    createdat = table.Column<DateTime>(name: "created_at", type: "datetime(6)", nullable: false),
-                    updatedat = table.Column<DateTime>(name: "updated_at", type: "datetime(6)", nullable: false)
+                    created_at = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {

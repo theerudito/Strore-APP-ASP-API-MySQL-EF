@@ -8,18 +8,18 @@ using Strore_APP_ASP_API_MySQL.DB_Context;
 
 #nullable disable
 
-namespace StroreAPPASPAPIMySQL.Migrations
+namespace Strore_APP_ASP_API_MySQL.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20230307210746_Inicile")]
-    partial class Inicile
+    [Migration("20230307231836_Inicial")]
+    partial class Inicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.2")
+                .HasAnnotation("ProductVersion", "8.0.0-preview.1.23111.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Strore_APP_ASP_API_MySQL.Models.MAuth", b =>
