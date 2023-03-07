@@ -1,7 +1,12 @@
-﻿using AutoMapper;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Strore_APP_ASP_API_MySQL.DB_Context;
+using Strore_APP_ASP_API_MySQL.DTO;
 using Strore_APP_ASP_API_MySQL.Models;
 
 namespace Strore_APP_ASP_API_MySQL.Controllers
@@ -39,16 +44,41 @@ namespace Strore_APP_ASP_API_MySQL.Controllers
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult> Login([FromBody] MAuth auth)
+    public async Task<ActionResult> Login([FromBody] AuthDTO auth)
     {
-      var user = await context.Auth.FirstOrDefaultAsync(x =>
-      x.Email == auth.Email && x.Password == auth.Password);
+      var user = await context.Auth.FirstOrDefaultAsync(user => user.Email == auth.Email);
+      //x.Email == auth.Email && x.Password == auth.Password);
 
       if (user == null)
       {
-        return BadRequest("email or password is incorrect");
+        return BadRequest(new { message = "User does not exist" });
       }
-      return Ok(user);
+
+      // compare password
+      if (!BCrypt.Net.BCrypt.Verify(auth.Password, user.Password))
+      {
+        return BadRequest(new { message = "Password or email is wrong" });
+      }
+
+      // generate token
+      var tokenHandler = new JwtSecurityTokenHandler();
+
+      var key = Encoding.ASCII.GetBytes(config["Jwt:Token"]);
+
+      var tokenDescriptor = new SecurityTokenDescriptor
+      {
+        Subject = new ClaimsIdentity(new Claim[]
+        {
+            new Claim(ClaimTypes.Name, user.User)
+        }),
+        Expires = DateTime.UtcNow.AddDays(7),
+        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+      };
+
+      var token = tokenHandler.CreateToken(tokenDescriptor);
+
+
+      return Ok(new { token = tokenHandler.WriteToken(token) });
     }
 
     [HttpGet]
@@ -62,19 +92,26 @@ namespace Strore_APP_ASP_API_MySQL.Controllers
     public async Task<ActionResult> GetByIdUser(int id)
     {
       var auth = await context.Auth.FirstOrDefaultAsync(x => x.IdAuth == id);
+      if (auth == null)
+      {
+        return BadRequest(new { message = "User does not exist" });
+      }
       return Ok(auth);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UPdateUser(int id, [FromBody] MAuth auth)
+    public async Task<ActionResult<MAuth>> UpDateUser([FromBody] MAuth auth, int id)
     {
-      if (id != auth.IdAuth)
+      var userExists = await context.Auth.FirstOrDefaultAsync(user => user.IdAuth == id);
+      if (userExists != null)
       {
-        return BadRequest("Id not found");
+        userExists.User = auth.User;
+        userExists.Password = BCrypt.Net.BCrypt.HashPassword(auth.Password);
+        userExists.Email = auth.Email;
+        await context.SaveChangesAsync();
+        return Ok(new { message = "the user was successfully updated" });
       }
-      context.Entry(auth).State = EntityState.Modified;
-      await context.SaveChangesAsync();
-      return Ok();
+      return NotFound(new { message = "User does not exist" });
     }
 
     [HttpDelete("{id}")]
@@ -83,11 +120,11 @@ namespace Strore_APP_ASP_API_MySQL.Controllers
       var auth = await context.Auth.FirstOrDefaultAsync(x => x.IdAuth == id);
       if (auth == null)
       {
-        return NotFound();
+        return NotFound(new { message = "User does not exist" });
       }
       context.Auth.Remove(auth);
       await context.SaveChangesAsync();
-      return Ok();
+      return Ok(new { message = "the user was successfully deleted" });
     }
 
   }
