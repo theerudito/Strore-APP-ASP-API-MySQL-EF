@@ -1,4 +1,7 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Strore_APP_ASP_API_MySQL.DB_Context;
 using Strore_APP_ASP_API_MySQL.Repositories;
 using Strore_APP_ASP_API_MySQL.Services;
@@ -18,6 +21,23 @@ builder.Services.AddScoped<IClients, MClientsRepositories>();
 builder.Services.AddScoped<IProducts, MProductsRepositories>();
 
 
+// config de jwt
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+  options.RequireHttpsMetadata = false;
+  options.SaveToken = true;
+  options.TokenValidationParameters = new TokenValidationParameters()
+  {
+    ValidateIssuer = true,
+    ValidateAudience = true,
+    ValidateLifetime = true,
+    ValidateIssuerSigningKey = true,
+    ValidAudience = builder.Configuration["Jwt:Audience"],
+    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Token"]))
+  };
+});
+
 
 builder.Services.AddControllers();
 
@@ -36,8 +56,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-
-app.UseHttpsRedirection();
+app.UseAuthentication();
 
 app.UseAuthorization();
 

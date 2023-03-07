@@ -6,7 +6,7 @@ using Strore_APP_ASP_API_MySQL.Services;
 namespace Strore_APP_ASP_API_MySQL.Controllers
 {
   [ApiController]
-  [Route("[controller]")]
+  [Route("api/v1/[controller]")]
   public class ClientsController : Controller
   {
     private readonly IClients _repositoryClients;
