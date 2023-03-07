@@ -20,18 +20,19 @@ namespace Strore_APP_ASP_API_MySQL.Repositories
       this.mapper = mapper;
     }
 
-    public async Task<MClientDTO> AddClient(MClientDTO clientDTO)
+
+    public async Task<MClient> AddClient(MClientDTO client)
     {
-      // hacer una busqueda si el cliente ya existe con el dni
-        var client = await dBContext.Clients.FirstOrDefaultAsync(cli => cli.DNI == clientDTO.DNI);
-        if (client == null)
-        {
-          var clientNew = mapper.Map<MClient>(clientDTO);
-          dBContext.Add(clientNew);
-          await dBContext.SaveChangesAsync();
-          return mapper.Map<MClientDTO>(clientNew);
-        }
-        return null;
+      // busco si existe el cliente con el dni si existe no lo agrego
+      var clientExist = await dBContext.Clients.FirstOrDefaultAsync(cli => cli.DNI == client.DNI);
+      if (clientExist == null)
+      {
+        var newClient = mapper.Map<MClient>(client);
+        dBContext.Add(newClient);
+        await dBContext.SaveChangesAsync();
+        return newClient;
+      }
+      return null;
     }
 
     public async Task<MClient> DeleteClient(int id)
@@ -61,7 +62,7 @@ namespace Strore_APP_ASP_API_MySQL.Repositories
       return clients;
     }
 
-    public async Task<MClientDTO> UpdateClient(MClientDTO client, int id)
+    public async Task<MClient> UpdateClient(MClientDTO client, int id)
     {
       var clientUpdate = await dBContext.Clients.FirstOrDefaultAsync(cli => cli.IdClient == id);
       if (clientUpdate != null)
@@ -75,7 +76,7 @@ namespace Strore_APP_ASP_API_MySQL.Repositories
         clientUpdate.City = client.City;
         await dBContext.SaveChangesAsync();
       }
-      return mapper.Map<MClientDTO>(clientUpdate);
+      return mapper.Map<MClient>(clientUpdate);
     }
   }
 }

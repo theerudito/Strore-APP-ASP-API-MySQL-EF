@@ -33,14 +33,18 @@ namespace Strore_APP_ASP_API_MySQL.Controllers
       return Ok(clients);
     }
     [HttpPost]
-    public async Task<ActionResult> PostClient([FromBody] MClientDTO clientDTO)
+    public async Task<ActionResult> PostClient(MClientDTO clientDTO)
     {
-      await _repositoryClients.AddClient(clientDTO);
-      return Ok(new { message = "Client created" });
+      var clientExist = await _repositoryClients.AddClient(clientDTO);
+      if (clientExist == null)
+      {
+        return Ok(new { message = "Client already exist" });
+      }
+      return Ok(new { message = "Client added" });
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> PutClient([FromBody] MClientDTO clientDTO, int id)
+    public async Task<ActionResult> PutClient(MClientDTO clientDTO, int id)
     {
       await _repositoryClients.UpdateClient(clientDTO, id);
       return Ok(new { message = "Client updated" });

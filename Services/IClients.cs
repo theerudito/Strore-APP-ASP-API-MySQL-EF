@@ -7,8 +7,8 @@ namespace Strore_APP_ASP_API_MySQL.Services
   {
     public Task<List<MClient>> GetClients();
     public Task<MClient> GetClient(int id);
-    public Task<MClientDTO> AddClient(MClientDTO client);
-    public Task<MClientDTO> UpdateClient(MClientDTO client, int id);
+    public Task<MClient> AddClient(MClientDTO client);
+    public Task<MClient> UpdateClient(MClientDTO client, int id);
     public Task<MClient> DeleteClient(int id);
   }
 }
