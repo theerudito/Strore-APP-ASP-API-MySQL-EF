@@ -133,7 +133,7 @@ namespace StroreAPPASPAPIMySQL.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "MCart",
+                name: "Cart",
                 columns: table => new
                 {
                     IdCart = table.Column<int>(type: "int", nullable: false)
@@ -144,15 +144,15 @@ namespace StroreAPPASPAPIMySQL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MCart", x => x.IdCart);
+                    table.PrimaryKey("PK_Cart", x => x.IdCart);
                     table.ForeignKey(
-                        name: "FK_MCart_Clients_IdClient",
+                        name: "FK_Cart_Clients_IdClient",
                         column: x => x.IdClient,
                         principalTable: "Clients",
                         principalColumn: "IdClient",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_MCart_Products_IdProduct",
+                        name: "FK_Cart_Products_IdProduct",
                         column: x => x.IdProduct,
                         principalTable: "Products",
                         principalColumn: "IdProduct",
@@ -181,28 +181,28 @@ namespace StroreAPPASPAPIMySQL.Migrations
                 {
                     table.PrimaryKey("PK_DetailCart", x => x.IdDetailCart);
                     table.ForeignKey(
-                        name: "FK_DetailCart_MCart_IdCart",
+                        name: "FK_DetailCart_Cart_IdCart",
                         column: x => x.IdCart,
-                        principalTable: "MCart",
+                        principalTable: "Cart",
                         principalColumn: "IdCart",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DetailCart_IdCart",
-                table: "DetailCart",
-                column: "IdCart");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MCart_IdClient",
-                table: "MCart",
+                name: "IX_Cart_IdClient",
+                table: "Cart",
                 column: "IdClient");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MCart_IdProduct",
-                table: "MCart",
+                name: "IX_Cart_IdProduct",
+                table: "Cart",
                 column: "IdProduct");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DetailCart_IdCart",
+                table: "DetailCart",
+                column: "IdCart");
         }
 
         /// <inheritdoc />
@@ -224,7 +224,7 @@ namespace StroreAPPASPAPIMySQL.Migrations
                 name: "Reports");
 
             migrationBuilder.DropTable(
-                name: "MCart");
+                name: "Cart");
 
             migrationBuilder.DropTable(
                 name: "Clients");

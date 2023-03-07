@@ -66,7 +66,7 @@ namespace StroreAPPASPAPIMySQL.Migrations
 
                     b.HasIndex("IdProduct");
 
-                    b.ToTable("MCart", (string)null);
+                    b.ToTable("Cart", (string)null);
                 });
 
             modelBuilder.Entity("Strore_APP_ASP_API_MySQL.Models.MClient", b =>

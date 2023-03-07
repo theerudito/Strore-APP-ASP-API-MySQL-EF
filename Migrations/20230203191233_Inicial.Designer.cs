@@ -11,7 +11,7 @@ using Strore_APP_ASP_API_MySQL.DB_Context;
 namespace StroreAPPASPAPIMySQL.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20230203185316_Inicial")]
+    [Migration("20230203191233_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -69,7 +69,7 @@ namespace StroreAPPASPAPIMySQL.Migrations
 
                     b.HasIndex("IdProduct");
 
-                    b.ToTable("MCart", (string)null);
+                    b.ToTable("Cart", (string)null);
                 });
 
             modelBuilder.Entity("Strore_APP_ASP_API_MySQL.Models.MClient", b =>

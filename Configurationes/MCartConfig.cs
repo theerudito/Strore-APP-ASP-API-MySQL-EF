@@ -8,7 +8,7 @@ namespace Strore_APP_ASP_API_MySQL.Configurationes
     {
         public void Configure(EntityTypeBuilder<MCart> builder)
         {
-            builder.ToTable("MCart");
+            builder.ToTable("Cart");
             builder.HasKey(x => x.IdCart);
             builder.Property(x => x.IdClient).IsRequired();
             builder.Property(x => x.IdProduct).IsRequired();
