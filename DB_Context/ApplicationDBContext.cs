@@ -9,7 +9,6 @@ namespace Strore_APP_ASP_API_MySQL.DB_Context
         public ApplicationDBContext(DbContextOptions options) : base(options)
         {
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
