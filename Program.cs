@@ -13,13 +13,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+// builder.Services.AddDbContext<ApplicationDBContext>(options =>
+//     options.UseMySQL(builder.Configuration.GetConnectionString("MyConnection")));
+
 
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
-    options.UseMySQL(builder.Configuration.GetConnectionString("MyConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));
 
-
-// builder.Services.AddDbContext<ApplicationDBContext>(options =>
-//     options.UseSqlServer(builder.Configuration.GetConnectionString("MyConnection")));
 
 builder.Services.AddScoped<IClients, MClientsRepositories>();
 builder.Services.AddScoped<IProducts, MProductsRepositories>();
