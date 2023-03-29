@@ -43,6 +43,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 
+// habilitar cors
+builder.Services.AddCors(options =>
+{
+  options.AddPolicy("AllowAll", builder =>
+  {
+    builder.AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader();
+  });
+});
+
+
+
 builder.Services.AddControllers();
 
 builder.Services.AddAutoMapper(typeof(Program));
@@ -54,6 +67,11 @@ if (app.Environment.IsDevelopment())
   app.UseSwagger();
   app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+app.UseRouting();
+
+app.UseCors("AllowAll");
 
 app.UseSwagger();
 app.UseSwaggerUI();
