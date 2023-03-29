@@ -20,7 +20,7 @@ namespace Strore_APP_ASP_API_MySQL.Repositories
     {
       this.dBContext = dBContext;
       this.mapper = mapper;
-      Task.Run(async () => await AddConsumidorFinal()).Wait();
+
 
     }
 
