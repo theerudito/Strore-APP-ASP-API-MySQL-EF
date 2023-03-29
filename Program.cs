@@ -56,6 +56,8 @@ builder.Services.AddCors(options =>
 
 
 
+
+
 builder.Services.AddControllers();
 
 builder.Services.AddAutoMapper(typeof(Program));

@@ -13,13 +13,35 @@ namespace Strore_APP_ASP_API_MySQL.Repositories
 
     private readonly ApplicationDBContext dBContext;
     private readonly IMapper mapper;
+    private int IdClient = 1;
+
 
     public MClientsRepositories(ApplicationDBContext dBContext, IMapper mapper)
     {
       this.dBContext = dBContext;
       this.mapper = mapper;
+      Task.Run(async () => await AddConsumidorFinal()).Wait();
+
     }
 
+    public async Task AddConsumidorFinal()
+    {
+      var clientExist = await dBContext.Clients.FirstOrDefaultAsync(cli => cli.IdClient == IdClient);
+      if (clientExist == null)
+      {
+        var newClient = new MClient();
+        newClient.IdClient = IdClient;
+        newClient.DNI = "9999999999";
+        newClient.FirstName = "Consumidor";
+        newClient.LastName = "Final";
+        newClient.Direction = "Sin dirección";
+        newClient.Phone = "9999999999";
+        newClient.Email = "Sin email";
+        newClient.City = "Sin ciudad";
+        dBContext.Add(newClient);
+        await dBContext.SaveChangesAsync();
+      }
+    }
 
     public async Task<MClient> AddClient(MClientDTO client)
     {
