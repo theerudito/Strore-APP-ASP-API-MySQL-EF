@@ -57,7 +57,7 @@ namespace Strore_APP_ASP_API_MySQL.Controllers
     [HttpDelete("{id}")]
     public async Task<ActionResult> RemoveClient(int id)
     {
-      var clientExist = await _repositoryClients.GetClient(id);
+      var clientExist = await _repositoryClients.DeleteClient(id);
       if (clientExist == null)
       {
         return Ok(new { message = "Client not exist" });
