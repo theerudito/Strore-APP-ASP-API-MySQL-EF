@@ -15,8 +15,8 @@ namespace Strore_APP_ASP_API_MySQL.DB_Context
       builder.Property(p => p.Brand).IsRequired().HasMaxLength(50);
       builder.Property(p => p.Description).IsRequired().HasMaxLength(100);
       builder.Property(p => p.Quantity).IsRequired();
-      builder.Property(p => p.P_Unitary).IsRequired();
-      builder.Property(p => p.P_Total);
+      builder.Property(p => p.P_Unitary).IsRequired().HasColumnType("decimal(18,2)");
+      builder.Property(p => p.P_Total).HasColumnType("decimal(18,2)");
       builder.Property(p => p.Image_Product).IsRequired().HasMaxLength(300);
     }
   }

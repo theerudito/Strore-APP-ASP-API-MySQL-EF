@@ -12,7 +12,7 @@ using Strore_APP_ASP_API_MySQL.DB_Context;
 namespace Strore_APP_ASP_API_MySQL.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20230317211838_Inicial")]
+    [Migration("20230331170829_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Strore_APP_ASP_API_MySQL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0-preview.1.23111.4")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -250,20 +250,20 @@ namespace Strore_APP_ASP_API_MySQL.Migrations
                     b.Property<int>("IdCart")
                         .HasColumnType("int");
 
-                    b.Property<float>("IvaTotal")
-                        .HasColumnType("real");
+                    b.Property<decimal>("IvaTotal")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<float>("SubTotal0")
-                        .HasColumnType("real");
+                    b.Property<decimal>("SubTotal0")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<float>("Subtotal")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Subtotal")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<float>("Subtotal12")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Subtotal12")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<float>("Total")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("created_at")
                         .HasColumnType("datetime2");
@@ -311,11 +311,11 @@ namespace Strore_APP_ASP_API_MySQL.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<float>("P_Total")
-                        .HasColumnType("real");
+                    b.Property<decimal>("P_Total")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<float>("P_Unitary")
-                        .HasColumnType("real");
+                    b.Property<decimal>("P_Unitary")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
