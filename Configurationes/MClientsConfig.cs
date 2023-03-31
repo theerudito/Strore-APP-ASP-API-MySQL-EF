@@ -4,19 +4,19 @@ using Strore_APP_ASP_API_MySQL.Models;
 
 namespace Strore_APP_ASP_API_MySQL.Configurationes
 {
-    public class MClientsConfig : IEntityTypeConfiguration<MClient>
+  public class MClientsConfig : IEntityTypeConfiguration<MClient>
+  {
+    public void Configure(EntityTypeBuilder<MClient> builder)
     {
-        public void Configure(EntityTypeBuilder<MClient> builder)
-        {
-            builder.ToTable("Clients");
-            builder.HasKey(e => e.IdClient);
-            builder.Property(e => e.FirstName).IsRequired().HasMaxLength(50);
-            builder.Property(e => e.LastName).IsRequired().HasMaxLength(50);
-            builder.Property(e => e.DNI).IsRequired().HasMaxLength(50);
-            builder.Property(e => e.Direction).IsRequired().HasMaxLength(50);
-            builder.Property(e => e.Phone).IsRequired().HasMaxLength(50);
-            builder.Property(e => e.Email).IsRequired().HasMaxLength(50);
-            builder.Property(e => e.City).IsRequired().HasMaxLength(50);
-        }
+      builder.ToTable("Clients");
+      builder.HasKey(c => c.IdClient);
+      builder.Property(c => c.FirstName).IsRequired().HasMaxLength(50);
+      builder.Property(c => c.LastName).IsRequired().HasMaxLength(50);
+      builder.Property(c => c.DNI).IsRequired().HasMaxLength(50);
+      builder.Property(c => c.Direction).IsRequired().HasMaxLength(50);
+      builder.Property(c => c.Phone).IsRequired().HasMaxLength(50);
+      builder.Property(c => c.Email).IsRequired().HasMaxLength(50);
+      builder.Property(c => c.City).IsRequired().HasMaxLength(50);
     }
+  }
 }

@@ -65,7 +65,7 @@ namespace Strore_APP_ASP_API_MySQL.Repositories
       {
         productExists.NameProduct = product.NameProduct;
         productExists.CodeProduct = product.CodeProduct;
-        productExists.P_Unitary = product.P_Unitary;
+        productExists.P_Unitary =  product.P_Unitary;
         productExists.Quantity = product.Quantity;
         productExists.Description = product.Description;
         productExists.Image_Product = product.Image_Product;
